@@ -4,13 +4,13 @@ import streamlit as st
 
 # Set up Streamlit page configuration
 st.set_page_config(
-    page_title="Urdu Fact Checking Annotation Dashboard",
+    page_title="UrduFactCheck Annotation Dashboard",
     page_icon=":bar_chart:",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
 st.markdown(
-    "<h3 style='text-align: center;'>Urdu Fact Checking Annotation Dashboard</h3>",
+    "<h3 style='text-align: center;'>UrduFactCheck Annotation Dashboard</h3>",
     unsafe_allow_html=True,
 )
 

@@ -2,7 +2,7 @@ import os
 from openfactcheck.state import FactCheckerState
 from openfactcheck.solver import StandardTaskSolver, Solver
 
-from .urdufactcheck_utils.chat_api import OpenAIChat
+from .urdufactcheck_utils.chat_api import OpenAIChat, AnthropicChat
 from .urdufactcheck_utils.prompt import VERIFICATION_PROMPT
 
 
@@ -11,7 +11,10 @@ class UrduFactCheckVerifier(StandardTaskSolver):
     def __init__(self, args):
         super().__init__(args)
         self.gpt_model = os.environ.get("MODEL_NAME", "gpt-4o")
-        self.gpt = OpenAIChat(self.gpt_model)
+        if "claude" in self.gpt_model:
+            self.gpt = AnthropicChat(self.gpt_model)
+        else:
+            self.gpt = OpenAIChat(self.gpt_model)
         self.verification_prompt = VERIFICATION_PROMPT
 
     def __call__(self, state: FactCheckerState, *args, **kwargs):

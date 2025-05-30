@@ -39,6 +39,14 @@ costs_by_model = {
         "input_cost_per_1M_tokens": 0.4,  # $0.4 for 1M tokens
         "output_cost_per_1M_tokens": 1.6,  # $1.6 for 1M tokens
     },
+    "claude-3-5-haiku-latest": {
+        "input_cost_per_1M_tokens": 1,  # $1 for 1M tokens
+        "output_cost_per_1M_tokens": 4,  # $4 for 1M tokens
+    },
+    "claude-3-7-sonnet-latest": {
+        "input_cost_per_1M_tokens": 3,  # $3 for 1M tokens
+        "output_cost_per_1M_tokens": 15,  # $15 for 1M tokens
+    },
 }
 
 serper_cost_per_credit = 52.5 / 50000  # $52.5 for 50k credits
@@ -150,12 +158,20 @@ for dataset in datasets:
                         f"[Warning] Model name mismatch in {model_cost_path}: expected {model_name}, found {df_cost['model_name'].unique()}"
                     )
                 params = costs_by_model[model_name]
-                cost = calculate_model_cost(
-                    num_input_tokens=df_cost["prompt_tokens"].sum(),
-                    num_output_tokens=df_cost["completion_tokens"].sum(),
-                    input_cost_per_1M_tokens=params["input_cost_per_1M_tokens"],
-                    output_cost_per_1M_tokens=params["output_cost_per_1M_tokens"],
-                )
+                if "claude" in model_name:
+                    cost = calculate_model_cost(
+                        num_input_tokens=df_cost["input_tokens"].sum(),
+                        num_output_tokens=df_cost["output_tokens"].sum(),
+                        input_cost_per_1M_tokens=params["input_cost_per_1M_tokens"],
+                        output_cost_per_1M_tokens=params["output_cost_per_1M_tokens"],
+                    )
+                else:
+                    cost = calculate_model_cost(
+                        num_input_tokens=df_cost["prompt_tokens"].sum(),
+                        num_output_tokens=df_cost["completion_tokens"].sum(),
+                        input_cost_per_1M_tokens=params["input_cost_per_1M_tokens"],
+                        output_cost_per_1M_tokens=params["output_cost_per_1M_tokens"],
+                    )
                 evaluate_factchecker_results[factchecker_name][dataset][model_name][
                     "model_cost"
                 ] = cost

@@ -3,7 +3,7 @@ import json
 import asyncio
 import aiohttp
 
-from .chat_api import OpenAIChat
+from .chat_api import OpenAIChat, AnthropicChat
 from .prompt import (
     URDU_TO_ENGLISH_TRANSLATION_PROMPT,
     ENGLISH_TO_URDU_TRANSLATION_PROMPT,
@@ -35,7 +35,10 @@ class GoogleSerperAPIWrapper:
         ), "Please set the SERPER_API_KEY environment variable."
 
         self.gpt_model = os.environ.get("MODEL_NAME", "gpt-4o")
-        self.gpt = OpenAIChat(self.gpt_model)
+        if "claude" in self.gpt_model:
+            self.gpt = AnthropicChat(self.gpt_model)
+        else:
+            self.gpt = OpenAIChat(self.gpt_model)
         self.english_to_urdu_translation_prompt = ENGLISH_TO_URDU_TRANSLATION_PROMPT
         self.urdu_to_english_translation_prompt = URDU_TO_ENGLISH_TRANSLATION_PROMPT
 

@@ -191,11 +191,9 @@ class AnthropicChat:
         top_p: float = 1,
         request_timeout: float = 20,
     ):
-        # Load API key
         api_key = os.environ.get("ANTHROPIC_API_KEY")
         assert api_key, "Please set the ANTHROPIC_API_KEY environment variable."
 
-        # Initialize async Anthropic client
         self.client = AsyncAnthropic(api_key=api_key)
         self.config = {
             "model_name": model_name,
@@ -206,81 +204,80 @@ class AnthropicChat:
         }
 
     def extract_list_from_string(self, input_string: str) -> str | None:
-        start_index = input_string.find("[")
-        end_index = input_string.rfind("]")
-
-        if start_index != -1 and end_index != -1 and start_index < end_index:
-            return input_string[start_index : end_index + 1]
+        start = input_string.find("[")
+        end = input_string.rfind("]")
+        if start != -1 and end != -1 and start < end:
+            return input_string[start : end + 1]
         return None
 
     def extract_dict_from_string(self, input_string: str) -> str | None:
-        start_index = input_string.find("{")
-        end_index = input_string.rfind("}")
-
-        if start_index != -1 and end_index != -1 and start_index < end_index:
-            return input_string[start_index : end_index + 1]
+        start = input_string.find("{")
+        end = input_string.rfind("}")
+        if start != -1 and end != -1 and start < end:
+            return input_string[start : end + 1]
         return None
 
     def _json_fix(self, output: str) -> str:
-        return output.replace("```json\n", "").replace("\n```", "")
+        if isinstance(output, str):
+            return output.replace("```json\n", "").replace("\n```", "")
+        else:
+            return output
 
     def _boolean_fix(self, output: str) -> str:
-        return output.replace("true", "True").replace("false", "False")
+        if isinstance(output, str):
+            return output.replace("true", "True").replace("false", "False")
+        else:
+            return output
 
     def _type_check(self, output: str, expected_type: type):
         try:
-            evaluated = ast.literal_eval(output)
-            if not isinstance(evaluated, expected_type):
-                print(f"Type mismatch: expected {expected_type}, got {type(evaluated)}")
+            val = ast.literal_eval(output)
+            if not isinstance(val, expected_type):
+                print(f"Type mismatch: expected {expected_type}, got {type(val)}")
                 return None
-            return evaluated
+            return val
         except Exception:
             if expected_type == str:
                 return output
             print(f"Error evaluating output: {output}")
             return None
 
-    def _build_prompt(self, messages: list[dict]) -> str:
-        prompt = ""
-        for msg in messages:
-            role = msg.get("role")
-            content = msg.get("content", "")
-            if role in ("user", "system"):
-                prompt += f"{HUMAN_PROMPT}{content}"
-            elif role == "assistant":
-                prompt += f"{AI_PROMPT}{content}"
-        # Indicate model to respond
-        prompt += AI_PROMPT
-        return prompt
-
     async def dispatch_anthropic_requests(
         self,
         messages_list: list[list[dict]],
     ) -> list[object | None]:
-        """Dispatch multiple async requests to Anthropic API with retries."""
+        """Send batches via the Messages API with retries."""
 
         async def _request_with_retry(
             messages: list[dict], retry: int = 3
         ) -> object | None:
-            prompt = self._build_prompt(messages)
+            # Extract any system prompt to top‐level
+            system_content = None
+            filtered = []
+            for msg in messages:
+                if msg.get("role") == "system":
+                    system_content = msg["content"]
+                else:
+                    filtered.append({"role": msg["role"], "content": msg["content"]})
+
             for _ in range(retry):
                 try:
                     return await asyncio.wait_for(
-                        self.client.completions.create(
+                        self.client.messages.create(
                             model=self.config["model_name"],
-                            prompt=prompt,
-                            max_tokens_to_sample=self.config["max_tokens"],
+                            system=system_content,
+                            messages=filtered,
+                            max_tokens=self.config["max_tokens"],
                             temperature=self.config["temperature"],
                             top_p=self.config["top_p"],
                         ),
                         timeout=self.config["request_timeout"],
                     )
                 except asyncio.TimeoutError:
-                    print("Anthropic request timed out, retrying...")
+                    print("Anthropic request timed out, retrying…")
                     await asyncio.sleep(1)
                 except Exception as e:
-                    # This catches API errors, rate limits, etc.
-                    print(f"Anthropic API error ({e}), retrying...")
+                    print(f"Anthropic API error ({e}), retrying…")
                     await asyncio.sleep(1)
             return None
 
@@ -292,22 +289,21 @@ class AnthropicChat:
         messages_list: list[list[dict]],
         expected_type: type,
     ) -> list[object | None]:
-        """Send batches of messages to Anthropic API and return typed responses."""
-        responses: list[object | None] = [None] * len(messages_list)
+        """Dispatch messages and type‐check their responses."""
+        responses = [None] * len(messages_list)
         pending_idx = list(range(len(messages_list)))
         attempts = 1
 
         while attempts > 0 and pending_idx:
             batch = [messages_list[i] for i in pending_idx]
-            # Execute async dispatch
             completions = asyncio.run(self.dispatch_anthropic_requests(batch))
-
-            # Process each completion
             finished = []
+
             for idx_in_batch, comp in enumerate(completions):
-                if comp is None or not hasattr(comp, "completion"):
+                if comp is None or not hasattr(comp, "content"):
                     continue
-                raw = comp.completion
+
+                raw = comp.content
                 # Optional cost logging
                 if os.environ.get("SAVE_MODEL_COST", "False") == "True" and hasattr(
                     comp, "usage"
@@ -320,22 +316,27 @@ class AnthropicChat:
                             json.dumps(
                                 {
                                     "model": self.config["model_name"],
-                                    "prompt_tokens": comp.usage.prompt_tokens,
-                                    "completion_tokens": comp.usage.completion_tokens,
-                                    "total_tokens": comp.usage.total_tokens,
+                                    "input_tokens": comp.usage.input_tokens,
+                                    "output_tokens": comp.usage.output_tokens,
+                                    "total_tokens": comp.usage.input_tokens
+                                    + comp.usage.output_tokens,
                                 }
                             )
                             + "\n"
                         )
-                # Clean and type-check
-                cleaned = self._boolean_fix(self._json_fix(raw))
+
+                # Parse TextBox list
+                raw_text = ""
+                for i in range(len(raw)):
+                    raw_text += raw[i].text
+
+                cleaned = self._boolean_fix(self._json_fix(raw_text))
                 result = self._type_check(cleaned, expected_type)
                 if result is not None:
                     real_idx = pending_idx[idx_in_batch]
                     responses[real_idx] = result
                     finished.append(real_idx)
 
-            # Remove finished
             pending_idx = [i for i in pending_idx if i not in finished]
             attempts -= 1
 

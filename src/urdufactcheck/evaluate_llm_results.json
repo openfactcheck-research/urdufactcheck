@@ -1,0 +1,218 @@
+{
+    "llama-3-2-1b-instruct": {
+        "simpleqa": {
+            "no_of_true_claims": 834,
+            "no_of_false_claims": 4953,
+            "total_claims": 5787,
+            "percentage_true_claims": 14.4116122343183,
+            "model_cost": 4.48,
+            "serper_cost": 12.17
+        },
+        "freshqa": {
+            "no_of_true_claims": 122,
+            "no_of_false_claims": 636,
+            "total_claims": 758,
+            "percentage_true_claims": 16.094986807387862,
+            "model_cost": 0.56,
+            "serper_cost": 1.59
+        }
+    },
+    "gpt-4o": {
+        "simpleqa": {
+            "no_of_true_claims": 885,
+            "no_of_false_claims": 4521,
+            "total_claims": 5406,
+            "percentage_true_claims": 16.37069922308546,
+            "model_cost": 4.15,
+            "serper_cost": 11.39
+        },
+        "freshqa": {
+            "no_of_true_claims": 390,
+            "no_of_false_claims": 453,
+            "total_claims": 843,
+            "percentage_true_claims": 46.263345195729535,
+            "model_cost": 0.04,
+            "serper_cost": 1.78
+        }
+    },
+    "qwen-3b": {
+        "freshqa": {
+            "no_of_true_claims": 120,
+            "no_of_false_claims": 654,
+            "total_claims": 774,
+            "percentage_true_claims": 15.503875968992247,
+            "model_cost": 0.57,
+            "serper_cost": 1.63
+        },
+        "simpleqa": {
+            "no_of_true_claims": 722,
+            "no_of_false_claims": 4907,
+            "total_claims": 5629,
+            "percentage_true_claims": 12.826434535441464,
+            "model_cost": 4.31,
+            "serper_cost": 11.85
+        }
+    },
+    "llama-3-1-8b-instruct": {
+        "freshqa": {
+            "no_of_true_claims": 137,
+            "no_of_false_claims": 522,
+            "total_claims": 659,
+            "percentage_true_claims": 20.789074355083457,
+            "model_cost": 0.51,
+            "serper_cost": 1.44
+        },
+        "simpleqa": {
+            "no_of_true_claims": 609,
+            "no_of_false_claims": 4723,
+            "total_claims": 5332,
+            "percentage_true_claims": 11.421605401350337,
+            "model_cost": 4.13,
+            "serper_cost": 11.23
+        }
+    },
+    "o4-mini": {
+        "freshqa": {
+            "no_of_true_claims": 374,
+            "no_of_false_claims": 487,
+            "total_claims": 862,
+            "percentage_true_claims": 43.3874709977198,
+            "model_cost": 0.07,
+            "serper_cost": 1.82
+        },
+        "simpleqa": {
+            "no_of_true_claims": 818,
+            "no_of_false_claims": 4250,
+            "total_claims": 5068,
+            "percentage_true_claims": 16.140489344909234,
+            "model_cost": 3.92,
+            "serper_cost": 10.69
+        }
+    },
+    "qwen-14b": {
+        "simpleqa": {
+            "no_of_true_claims": 666,
+            "no_of_false_claims": 5263,
+            "total_claims": 5929,
+            "percentage_true_claims": 11.23292292123461,
+            "model_cost": 4.56,
+            "serper_cost": 12.48
+        },
+        "freshqa": {
+            "no_of_true_claims": 239,
+            "no_of_false_claims": 805,
+            "total_claims": 1044,
+            "percentage_true_claims": 22.892720306513407,
+            "model_cost": 0.75,
+            "serper_cost": 2.21
+        }
+    },
+    "alif-8b": {
+        "freshqa": {
+            "no_of_true_claims": 143,
+            "no_of_false_claims": 630,
+            "total_claims": 773,
+            "percentage_true_claims": 18.4993531695,
+            "model_cost": 0.60,
+            "serper_cost": 1.62
+        },
+        "simpleqa": {
+            "no_of_true_claims": 1055,
+            "no_of_false_claims": 6109,
+            "total_claims": 7164,
+            "percentage_true_claims": 14.72640982691234,
+            "model_cost": 5.46,
+            "serper_cost": 15.07
+        }
+    },
+    "qwen-1-5b": {
+        "freshqa": {
+            "no_of_true_claims": 178,
+            "no_of_false_claims": 755,
+            "total_claims": 933,
+            "percentage_true_claims": 19.078242229367632,
+            "model_cost": 0.68,
+            "serper_cost": 1.98
+        },
+        "simpleqa": {
+            "no_of_true_claims": 1203,
+            "no_of_false_claims": 5916,
+            "total_claims": 7119,
+            "percentage_true_claims": 16.898440792246102,
+            "model_cost": 5.47,
+            "serper_cost": 15.02
+        }
+    },
+    "qwen-72b": {
+        "simpleqa": {
+            "no_of_true_claims": 643,
+            "no_of_false_claims": 4736,
+            "total_claims": 5379,
+            "percentage_true_claims": 11.953894775980665,
+            "model_cost": 4.16,
+            "serper_cost": 11.32
+        },
+        "freshqa": {
+            "no_of_true_claims": 186,
+            "no_of_false_claims": 577,
+            "total_claims": 763,
+            "percentage_true_claims": 24.37745740498034,
+            "model_cost": 0.59,
+            "serper_cost": 1.61
+        }
+    },
+    "llama-3-8b-instruct": {
+        "freshqa": {
+            "no_of_true_claims": 118,
+            "no_of_false_claims": 573,
+            "total_claims": 691,
+            "percentage_true_claims": 17.0767004341534,
+            "model_cost": 0.51,
+            "serper_cost": 1.45
+        },
+        "simpleqa": {
+            "no_of_true_claims": 539,
+            "no_of_false_claims": 4699,
+            "total_claims": 5238,
+            "percentage_true_claims": 10.290187094310806,
+            "model_cost": 4.09,
+            "serper_cost": 11.04
+        }
+    },
+    "llama-3-2-3b-instruct": {
+        "simpleqa": {
+            "no_of_true_claims": 630,
+            "no_of_false_claims": 4798,
+            "total_claims": 5428,
+            "percentage_true_claims": 11.606484893146646,
+            "model_cost": 4.22,
+            "serper_cost": 11.42
+        },
+        "freshqa": {
+            "no_of_true_claims": 116,
+            "no_of_false_claims": 667,
+            "total_claims": 783,
+            "percentage_true_claims": 14.814814814814813,
+            "model_cost": 0.58,
+            "serper_cost": 1.65
+        }
+    },
+    "qwen-7b": {
+        "simpleqa": {
+            "no_of_true_claims": 577,
+            "no_of_false_claims": 4766,
+            "total_claims": 5343,
+            "percentage_true_claims": 10.79917649260715,
+            "model_cost": 4.12,
+            "serper_cost": 11.24
+        },
+        "freshqa": {
+            "no_of_true_claims": 93,
+            "no_of_false_claims": 642,
+            "total_claims": 735,
+            "percentage_true_claims": 12.653061224489795,
+            "model_cost": 0.54,
+            "serper_cost": 1.55
+        }
+    }
+}
