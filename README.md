@@ -68,3 +68,35 @@ response = OpenFactCheck(config).ResponseEvaluator.evaluate(
     response="قائداعظم محمد علی جناح پاکستان کے بانی اور پہلے گورنر جنرل تھے۔",
 )
 ```
+
+## Citation
+
+If you use UrduFactCheck in your research, please cite:
+
+```bibtex
+@inproceedings{ahmad-etal-2025-urdufactcheck,
+    title = "{U}rdu{F}act{C}heck: An Agentic Fact-Checking Framework for {U}rdu with Evidence Boosting and Benchmarking",
+    author = "Ahmad, Sarfraz  and
+      Iqbal, Hasan  and
+      Ahsan, Momina  and
+      Naeem, Numaan  and
+      Khan, Muhammad Ahsan Riaz  and
+      Riaz, Arham  and
+      Manzoor, Muhammad Arslan  and
+      Wang, Yuxia  and
+      Nakov, Preslav",
+    editor = "Christodoulopoulos, Christos  and
+      Chakraborty, Tanmoy  and
+      Rose, Carolyn  and
+      Peng, Violet",
+    booktitle = "Findings of the Association for Computational Linguistics: EMNLP 2025",
+    month = nov,
+    year = "2025",
+    address = "Suzhou, China",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2025.findings-emnlp.1240/",
+    doi = "10.18653/v1/2025.findings-emnlp.1240",
+    pages = "22788--22802",
+    ISBN = "979-8-89176-335-7",
+}
+```
