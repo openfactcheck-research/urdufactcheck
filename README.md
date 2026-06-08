@@ -6,7 +6,9 @@
 
 <strong>An Agentic Fact-Checking Framework for Urdu with Evidence Boosting and Benchmarking</strong>
 
-<sub>Sarfraz Ahmad · Hasan Iqbal · Momina Ahsan · Numaan Naeem · Muhammad Ahsan Riaz Khan · Arham Riaz · Muhammad Arslan Manzoor · Yuxia Wang · Preslav Nakov</sub>
+<sub>Sarfraz Ahmad · Hasan Iqbal · Momina Ahsan · Numaan Naeem · Muhammad Ahsan Riaz Khan · Arham Riaz</sub>
+
+<sub>Muhammad Arslan Manzoor · Yuxia Wang · Preslav Nakov</sub>
 
 <sub>MBZUAI, Abu Dhabi, UAE</sub>
 
